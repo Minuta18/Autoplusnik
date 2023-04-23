@@ -1,0 +1,11 @@
+debug: true
+
+web-site:
+  host: "0.0.0.0"
+  port: 17500
+
+plusnik:
+  updater:
+    path: "./Plusnik/stepik_toke.json"
+  loader:
+    path: "./Plusnik/google_account.json"
