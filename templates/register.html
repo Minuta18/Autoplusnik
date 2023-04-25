@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Регистрация
+{% endblock %}
+{% block navbar %}
+<div class="navbar">
+    <a href="/">Главная</a>
+    <a href="">Новости</a>
+    <a href="">О продукте</a>
+    <a href="/login/" style="float: right;">Вход</a>
+    <a href="/register/" class="active" style="float: right;">Регистрация</a>
+</div>
+{% endblock %}
+{% block content %}
+<div class="form-container">
+    <form method="post">
+        <label><span class="header"><p>Регистрация</p></span></label>
+
+        <label for="username"><span class="text">Логин:</span></label>
+        <input type="text" placeholder="Введите логин..." name="username" required>
+        <label for="email"><span class="text">Почта:</span></label>
+        <input type="text" placeholder="Введите почту..." name="email" required>
+        <label for="password"><span class="text">Пароль:</span></label>
+        <input type="password" placeholder="Введите пароль..." name="password" required>
+        <label for="confirm_password"><span class="text">Повторите пароль:</span></label>
+        <input type="password" placeholder="Введите пароль..." name="confirm_password" required>
+        
+        <button type="submit">Войти</button>
+    </form>
+</div>
+{% endblock %}

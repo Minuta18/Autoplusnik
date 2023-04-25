@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block jscript %}
+<script>
+    function updateTextInput(val) {
+        document.getElementById('updCol').textContent = val;
+    }
+</script>
+{% endblock %}
+{% block title %}
+Главная
+{% endblock %}
+{% block navbar %}
+<div class="navbar">
+    <a href="/" class="active">Главная</a>
+    <a href="">Новости</a>
+    <a href="">О продукте</a>
+    <a href="">Выход</a>
+</div>
+{% endblock %}
+{% block content %}
+<div class="edit-form">
+    <form method="post">
+        <label><span class="header"><p>Редактировать класс</p></span></label>
+        <label for="name_"><span class="text">Название:</span></label>
+        <input type="text" placeholder="Введите название..." name="name_" required>
+        <label for="klass_id"><span class="text">ID класса в степике:</span></label>
+        <input type="text" placeholder="Введите ID..." name="klass_id" required>
+        <label for="lname"><span class="text">Название листа в таблице:</span></label>
+        <input type="text" placeholder="Введите лист..." name="lname" required>
+    
+        <button type="submit">Отправить</button>
+    </form>
+</div>
+
+<div class="edit-form">
+    <form method="post">
+        <label><span class="header"><p>Автоматическое обновление</p></span></label>
+        <input type="checkbox" style="margin-left: 5%;" name="use">
+        <label for="use"><span class="text" style="margin-left: 0%;">Использовать</span></label><br>
+        <label for="time"><span class="text">Введите время:</span></label>
+        <input type="range" min="1" max="10" name="time" oninput="updateTextInput(this.value)" required>
+        <span class="text"><label for="lb" id="updCol">0</label></span>
+        <label for="count" name="lb"><span class="text"  style="margin-left: 1%;"> Раз в</span></label>
+        <select name="count">
+            <option value="hour">час</option>
+            <option value="day">день</option>
+        </select>
+        <button type="submit">Отправить</button>
+    </form>
+</div>
+{% endblock %}

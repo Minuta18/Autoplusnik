@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}
+Главная
+{% endblock %}
+{% block navbar %}
+<div class="navbar">
+    <a href="/" class="active">Главная</a>
+    <a href="">Новости</a>
+    <a href="">О продукте</a>
+    <a href="" style="float: right">Выход</a>
+</div>
+<!-- Гостогоголи канон -->
+{% endblock %}
+{% block content %}
+<div class="header">
+    <p>Ваши классы</p>
+</div>
+<div class="klass">
+    <table>
+        <thead>
+            <tr>
+                <td scope="col">Класс</td>
+                <td scope="col">Обновлемый листок</td>
+                <td scope="col">Действия</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Класс 1</td>
+                <td>Такой-то</td>
+                <td>Обновить</td>
+            </tr>
+            <tr>
+                <td>Класс 2</td>
+                <td>Вот такой-то</td>
+                <td>Обновить</td>
+            </tr>
+            <tr>
+                <td>Класс 3</td>
+                <td>Такой-то</td>
+                <td>Обновить</td>
+            </tr>
+            <tr>
+                <td>Класс 4</td>
+                <td>Вот такой-то</td>
+                <td>Обновить</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
