@@ -1,5 +1,10 @@
-back-image {
-    background-image: url({{ url_for('static', ) }});
+.main-page-container {
+    width: 100%;
+    padding-left: 30%;
+    padding-right: 30%;
+    text-align: center;
+    font-size: large;
+    background-color: white;
+    display: block;
+    box-sizing: border-box;
 }
-/* 
-TODO */

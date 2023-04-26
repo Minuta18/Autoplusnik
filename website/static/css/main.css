@@ -48,3 +48,17 @@ body {
     font-weight: bold;
     text-align: center;
 }
+
+.ap-button {
+    text-decoration: none;
+    background-color: #008CBA;
+    color: #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.ap-button:hover {
+    background-color: #00ace5;
+}
