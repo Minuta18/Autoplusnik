@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Вход
+{% endblock %}
+{% block navbar %}
+<div class="navbar">
+    <a href="/">Главная</a>
+    <a href="">Новости</a>
+    <a href="">О продукте</a>
+    <a href="/login/" class="active" style="float: right;">Вход</a>
+    <a href="/register/" style="float: right;">Регистрация</a>
+</div>
+{% endblock %}
+{% block content %}
+<div class="form-container">
+    <form method="post">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='/images/login.png') }}">
+        </div>
+
+        <label name="alert"><span class="text">{{ alert }}</span></label>
+
+        <label for="username"><span class="text">Логин:</span></label>
+        <input type="text" placeholder="Введите логин..." name="username" required>
+        <label for="password"><span class="text">Пароль:</span></label>
+        <input type="password" placeholder="Введите пароль..." name="password" required>
+        
+        <button type="submit">Войти</button>
+    </form>
+</div>
+{% endblock %}

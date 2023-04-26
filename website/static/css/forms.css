@@ -1,0 +1,99 @@
+.form-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    width: 30%;
+    position: relative;
+    background-color: #f1f1f1;
+    padding-bottom: 8px;
+    border: 2px #d9d9d9 solid;
+    border-radius: 10px;
+}
+
+.form-container input {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.form-container .text {
+    font-size: larger;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-left: 5%;
+    display: inline-block;
+}
+
+.form-container .image-container {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 30%;
+    padding: 16px;
+}
+
+.form-container .image-container img {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.form-container button {
+    width: 30%;
+    padding: 8px;
+    margin: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.edit-form {
+    display: inline-block;
+    margin-left: 2%;
+    margin-top: 2%;
+    width: 47%;
+    position: relative;
+    background-color: white;
+    padding-bottom: 8px;
+    border: 2px #d9d9d9 solid;
+    border-radius: 10px;
+}
+
+.edit-form input[type="text"], .edit-form input[type="range"] {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.edit-form .text {
+    font-size: larger;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-left: 5%;
+    display: inline-block;
+}
+
+.edit-form .image-container {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 30%;
+    padding: 16px;
+}
+
+.edit-form button {
+    width: 30%;
+    padding: 8px;
+    margin: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %} - Автоплюсник</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/klass.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+        {% block jscript %}
+        
+        {% endblock %}
+    </head>
+    <body>
+        {% block navbar %}
+
+        {% endblock %}
+        {% block content %}
+
+        {% endblock %}
+        <footer class="footer">
+            <p>Autoplusnik v2.0.3 BETA. Copyright (c) 2023 - Igor Samsonov - All rights reserved</p>
+        </footer>
+    </body>
+</html>
