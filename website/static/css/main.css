@@ -57,9 +57,22 @@ body {
     padding: 10px;
     display: inline-block;
     margin: 10px;
+    border: none;
 }
 
 .ap-button:hover {
     background-color: #00ace5;
     transition-duration: 0.3s;
+}
+
+.ap-link {
+    color: #008CBA;
+}
+
+.centered-form {
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    width: min-content;
+    display: block;
 }

@@ -5,34 +5,64 @@ from ConfigParser import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect
 from flask_login import login_user
-from .models import User
+from .models import User, Klass
 from flask_login import login_required, current_user, logout_user
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # if request.method == 'POST':
-    #     action = request.args.get('action')
-    #     klass = request.args.get('klass')
-
-    #     if action != None and klass != None:
-    #         if action == 'update':
-    #             pass # TODO
-    #         elif action == 'delete':
-    #             pass
-    #         elif action == 'create':
-    #             pass
-    #         elif action == 'edit':
-    #             pass
-        
-    #     return redirect('/')
-    # return render_template(...) # TODO
     return render_template('index.html', usr=current_user)
+
+@login_required
+@app.route('/edit/<klass_id>', methods=['GET', 'POST'])
+def edit(klass_id: int):
+    klass = Klass.query.filter_by(id=klass_id).first()
+    if request.method == 'POST':
+        form_ = int(request.args.get('form'))
+
+        if form_ != None:
+            if form_ == 0:
+                klass.name = request.form.get('name_')
+                klass.stepik_id = int(request.form.get('klass_id'))
+                klass.sheet_name = request.form.get('lname')
+
+                db.session.commit()
+            elif form_ == 1:
+                ...
+
+        return redirect('/klasses/')
+
+    return render_template(
+        'edit.html', 
+        old_name=klass.name,
+        old_id=klass.stepik_id,
+        old_sheet=klass.sheet_name,    
+    )
 
 @login_required
 @app.route('/klasses/', methods=['GET', 'POST'])
 def klasses():
+    if request.method == 'POST':
+        klass = request.args.get('klass')
+        action = request.args.get('action')
 
-    return render_template('klasses.html')
+        print(klass, action)
+        if klass != None or action != None:
+            if action == 'new':
+                new_klass = Klass(
+                    name='Новый класс',
+                    stepik_id=0,
+                    sheet_name='Укажите здесь лист',
+                    creator_id=current_user.id, 
+                )
+
+                db.session.add(new_klass)
+                db.session.commit()
+
+                return redirect(f'/edit/{new_klass.id}')
+
+    all_klasses = Klass.query.filter_by(creator_id=current_user.id)
+
+    return render_template('klasses.html', klasses=all_klasses, all_len=all_klasses.count())
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -83,9 +113,3 @@ def logout():
     logout_user()
 
     return redirect('/')
-
-@app.route('/edit/', methods=['GET', 'POST'])
-@login_required
-def edit():
-    # TODO
-    return render_template('edit.html')

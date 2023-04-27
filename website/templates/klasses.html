@@ -6,7 +6,6 @@
 <div class="navbar">
     <a href="/">Главная</a>
     <a href="">Новости</a>
-    <a href="">О продукте</a>
     <a href="/klasses/" class="active">Мои классы</a>
     <a href="/logout/" style="float: right">Выход</a>
 </div>
@@ -25,27 +24,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Класс 1</td>
-                    <td>Такой-то</td>
-                    <td>Обновить</td>
-                </tr>
-                <tr>
-                    <td>Класс 2</td>
-                    <td>Вот такой-то</td>
-                    <td>Обновить</td>
-                </tr>
-                <tr>
-                    <td>Класс 3</td>
-                    <td>Такой-то</td>
-                    <td>Обновить</td>
-                </tr>
-                <tr>
-                    <td>Класс 4</td>
-                    <td>Вот такой-то</td>
-                    <td>Обновить</td>
-                </tr>
+                {% for klass in klasses %}
+                    <tr>
+                        <td>{{ klass.name }}</td>
+                        <td>{{ klass.sheet_name }}</td>
+                        <td><a href="/edit/{{ klass.id }}" class="ap-link">Изменить</a></td>
+                    </tr>
+                {% endfor %}
+                {% if all_len == 0 %}
+                    <tr>
+                        <td></td>
+                        <td>Пока нет классов</td>
+                        <td></td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
+
+    <form action="?klass=None&action=new" method="post" class="centered-form">
+        <button class="ap-button" style="font-size: larger;">Добавить класс</button>
+    </form>
 {% endblock %}

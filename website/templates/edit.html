@@ -13,21 +13,20 @@
 <div class="navbar">
     <a href="/" class="active">Главная</a>
     <a href="">Новости</a>
-    <a href="">О продукте</a>
     <a href="/klasses/">Мои классы</a>
     <a href="/logout/" style="float: right">Выход</a>
 </div>
 {% endblock %}
 {% block content %}
 <div class="edit-form">
-    <form method="post">
+    <form method="post" action="?form=0">
         <label><span class="header"><p>Редактировать класс</p></span></label>
         <label for="name_"><span class="text">Название:</span></label>
-        <input type="text" placeholder="Введите название..." name="name_" required>
+        <input type="text" placeholder="Введите название..." name="name_" value="{{ old_name }}" required>
         <label for="klass_id"><span class="text">ID класса в степике:</span></label>
-        <input type="text" placeholder="Введите ID..." name="klass_id" required>
+        <input type="text" placeholder="Введите ID..." name="klass_id" value="{{ old_id }}" required>
         <label for="lname"><span class="text">Название листа в таблице:</span></label>
-        <input type="text" placeholder="Введите лист..." name="lname" required>
+        <input type="text" placeholder="Введите лист..." name="lname" value="{{ old_sheet }}" required>
     
         <button type="submit">Отправить</button>
     </form>

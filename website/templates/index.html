@@ -21,7 +21,6 @@
         <div class="navbar">
             <a href="/" class="active">Главная</a>
             <a href="">Новости</a>
-            <a href="">О продукте</a>
             <a href="/klasses/">Мои классы</a>
             <a href="/logout/" style="float: right">Выход</a>
         </div>
@@ -48,9 +47,9 @@
         <div class="text">
             <p>Автоплюсник полностью бесплатный. Вы можете им пользоваться всегда, когда захотите.</p>
             {% if usr.is_authenticated %}
-                <a href="/register/" class="ap-button">Продолжить</a>
+                <a href="/klasses/" class="ap-button">Продолжить</a>
             {% else %}
-                <a href="/klasses/" class="ap-button">Начать</a>
+                <a href="/register/" class="ap-button">Начать</a>
             {% endif %}
         </div>
     </div>
