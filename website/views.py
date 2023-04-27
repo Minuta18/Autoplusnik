@@ -28,6 +28,12 @@ def index():
     # return render_template(...) # TODO
     return render_template('index.html', usr=current_user)
 
+@login_required
+@app.route('/klasses/', methods=['GET', 'POST'])
+def klasses():
+
+    return render_template('klasses.html')
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

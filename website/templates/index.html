@@ -22,6 +22,7 @@
             <a href="/" class="active">Главная</a>
             <a href="">Новости</a>
             <a href="">О продукте</a>
+            <a href="/klasses/">Мои классы</a>
             <a href="/logout/" style="float: right">Выход</a>
         </div>
     {% else %}
@@ -36,58 +37,22 @@
     <!-- Гостогоголи канон -->
 {% endblock %}
 {% block content %}
-    {% if usr.is_authenticated %}
-        <div class="header">
-            <p>Ваши классы</p>
+    <div class="back-image"></div>
+    <div class="main-page-container">
+        <span class="header"><p>Автоплюсник</p></span>
+        <span class="text"><p>Автоплюсник - система для автоматической загрузки отчётов stepik об успеваемости учеников. Автоплюсник будет выгружать эти отчёты в электронные таблицы Google.</p></span>
+    </div>
+    <div class="back-image"></div>
+    <div class="main-page-container">
+        <span class="header"><p>Начните использовать</p></span>
+        <div class="text">
+            <p>Автоплюсник полностью бесплатный. Вы можете им пользоваться всегда, когда захотите.</p>
+            {% if usr.is_authenticated %}
+                <a href="/register/" class="ap-button">Продолжить</a>
+            {% else %}
+                <a href="/klasses/" class="ap-button">Начать</a>
+            {% endif %}
         </div>
-        <div class="klass">
-            <table>
-                <thead>
-                    <tr>
-                        <td scope="col">Класс</td>
-                        <td scope="col">Обновлемый листок</td>
-                        <td scope="col">Действия</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Класс 1</td>
-                        <td>Такой-то</td>
-                        <td>Обновить</td>
-                    </tr>
-                    <tr>
-                        <td>Класс 2</td>
-                        <td>Вот такой-то</td>
-                        <td>Обновить</td>
-                    </tr>
-                    <tr>
-                        <td>Класс 3</td>
-                        <td>Такой-то</td>
-                        <td>Обновить</td>
-                    </tr>
-                    <tr>
-                        <td>Класс 4</td>
-                        <td>Вот такой-то</td>
-                        <td>Обновить</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    {% endif %}
-    {% if not usr.is_authenticated %}
-        <div class="back-image"></div>
-        <div class="main-page-container">
-            <span class="header"><p>Автоплюсник</p></span>
-            <span class="text"><p>Автоплюсник - система для автоматической загрузки отчётов stepik об успеваемости учеников. Автоплюсник будет выгружать эти отчёты в электронные таблицы Google.</p></span>
-        </div>
-        <div class="back-image"></div>
-        <div class="main-page-container">
-            <span class="header"><p>Начните использовать</p></span>
-            <div class="text">
-                <p>Автоплюсник полностью бесплатный. Вы можете им пользоваться всегда, когда захотите.</p>
-                <a href="/register/" class="ap-button">Начать</a>
-            </div>
-        </div>
-        <div class="back-image"></div>
-    {% endif %}
+    </div>
+    <div class="back-image"></div>
 {% endblock %}

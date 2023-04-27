@@ -61,4 +61,5 @@ body {
 
 .ap-button:hover {
     background-color: #00ace5;
+    transition-duration: 0.3s;
 }
