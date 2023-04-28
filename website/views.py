@@ -3,9 +3,9 @@ from .app_init import db
 from .app_init import app
 from ConfigParser import Config
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, abort
 from flask_login import login_user
-from .models import User, Klass
+from .models import User, Klass, Permissions
 from flask_login import login_required, current_user, logout_user
 
 @app.route('/', methods=['GET', 'POST'])
@@ -15,7 +15,14 @@ def index():
 @login_required
 @app.route('/edit/<klass_id>', methods=['GET', 'POST'])
 def edit(klass_id: int):
+    if current_user.role == Permissions.no_permissions.value:
+        abort(403)
+
     klass = Klass.query.filter_by(id=klass_id).first()
+
+    if klass.creator_id != current_user.id:
+        abort(403)
+
     if request.method == 'POST':
         form_ = int(request.args.get('form'))
 
@@ -45,9 +52,11 @@ def klasses():
         klass = request.args.get('klass')
         action = request.args.get('action')
 
-        print(klass, action)
         if klass != None or action != None:
             if action == 'new':
+                if current_user.role == Permissions.no_permissions.value:
+                    abort(403)
+
                 new_klass = Klass(
                     name='Новый класс',
                     stepik_id=0,
@@ -62,7 +71,7 @@ def klasses():
 
     all_klasses = Klass.query.filter_by(creator_id=current_user.id)
 
-    return render_template('klasses.html', klasses=all_klasses, all_len=all_klasses.count())
+    return render_template('klasses.html', klasses=all_klasses, all_len=all_klasses.count(), usr=current_user)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():

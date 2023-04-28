@@ -31,12 +31,20 @@
                         <td><a href="/edit/{{ klass.id }}" class="ap-link">Изменить</a></td>
                     </tr>
                 {% endfor %}
-                {% if all_len == 0 %}
+                {% if usr.role == 0 %}
                     <tr>
                         <td></td>
-                        <td>Пока нет классов</td>
+                        <td>Вы не можете создавать, изменять и удалять классы</td>
                         <td></td>
                     </tr>
+                {% else %}
+                    {% if all_len == 0 %}
+                        <tr>
+                            <td></td>
+                            <td>Пока нет классов</td>
+                            <td></td>
+                        </tr>
+                    {% endif %}
                 {% endif %}
             </tbody>
         </table>
