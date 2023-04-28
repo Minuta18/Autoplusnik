@@ -1,3 +1,5 @@
+# Autoplusnik Copyright (C) 2023 Igor Samsonov
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from . import config

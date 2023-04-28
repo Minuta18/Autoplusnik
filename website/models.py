@@ -1,11 +1,14 @@
+# Autoplusnik Copyright (C) 2023 Igor Samsonov
+
 from .app_init import db
 from flask_login import UserMixin
 import enum
 
 class Permissions(enum.Enum):
-    default_user = 1
-    admin = 2
     no_permissions = 0
+    default_account = 1
+    admin_account = 2
+    dev_account = 3
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

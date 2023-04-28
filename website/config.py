@@ -1,3 +1,5 @@
+# Autoplusnik Copyright (C) 2023 Igor Samsonov
+
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 

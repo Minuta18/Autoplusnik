@@ -1,3 +1,5 @@
+<!-- Autoplusnik Copyright (C) 2023 Igor Samsonov -->
+
 {% extends "base.html" %}
 {% block title %}
 Ваши классы
@@ -28,7 +30,10 @@
                     <tr>
                         <td>{{ klass.name }}</td>
                         <td>{{ klass.sheet_name }}</td>
-                        <td><a href="/edit/{{ klass.id }}" class="ap-link">Изменить</a></td>
+                        <td>
+                            <a href="/edit/{{ klass.id }}" class="ap-link">Изменить</a>
+                            <a href="/delete/{{ klass.id }}" class="ap-link">Удалить</a>
+                        </td>
                     </tr>
                 {% endfor %}
                 {% if usr.role == 0 %}

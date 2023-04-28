@@ -1,3 +1,5 @@
+# Autoplusnik Copyright (C) 2023 Igor Samsonov
+
 import gspread as gp
 import pandas as pd
 

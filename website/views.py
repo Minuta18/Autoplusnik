@@ -1,3 +1,5 @@
+# Autoplusnik Copyright (C) 2023 Igor Samsonov
+
 from . import models
 from .app_init import db
 from .app_init import app
@@ -44,6 +46,19 @@ def edit(klass_id: int):
         old_id=klass.stepik_id,
         old_sheet=klass.sheet_name,    
     )
+
+@login_required
+@app.route('/delete/<klass_id>/', methods=['GET'])
+def delete(klass_id):
+    klass = Klass.query.filter_by(id=klass_id).first()
+
+    if current_user.id == klass.creator_id:
+        db.session.delete(klass)
+        db.session.commit()
+    else:
+        abort(403)
+
+    return redirect('/klasses/')
 
 @login_required
 @app.route('/klasses/', methods=['GET', 'POST'])

@@ -1,3 +1,5 @@
+# Autoplusnik Copyright (C) 2023 Igor Samsonov
+
 from website import app
 from ConfigParser import Config
 
