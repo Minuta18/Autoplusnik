@@ -137,3 +137,19 @@ def logout():
     logout_user()
 
     return redirect('/')
+
+@app.errorhandler(404)
+def error404(err):
+    return render_template('error.html', usr=current_user, error_code=404), 404
+
+@app.errorhandler(400)
+def error400(err):
+    return render_template('error.html', usr=current_user, error_code=400), 400
+
+@app.errorhandler(500)
+def error500(err):
+    return render_template('error.html', usr=current_user, error_code=500), 500
+
+@app.errorhandler(403)
+def error500(err):
+    return render_template('error.html', usr=current_user, error_code=403), 403

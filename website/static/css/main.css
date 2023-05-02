@@ -51,6 +51,12 @@ body {
     text-align: center;
 }
 
+.header-big {
+    font-size: 250px;
+    text-align: start;
+    color: #008CBA;
+}
+
 .ap-button {
     text-decoration: none;
     background-color: #008CBA;
@@ -77,4 +83,10 @@ body {
     margin-right: auto;
     width: min-content;
     display: block;
+}
+
+.cntr {
+    margin: 16px;
+    padding-left: 25%;
+    padding-right: 25%;
 }
