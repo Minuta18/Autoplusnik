@@ -31,4 +31,5 @@
 
 .klass td {
     padding: 16px;
+    word-wrap: break-word;
 }

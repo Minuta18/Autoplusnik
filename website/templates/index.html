@@ -24,6 +24,7 @@
             <a href="/" class="active">Главная</a>
             <a href="">Новости</a>
             <a href="/klasses/">Мои классы</a>
+            {% if is_admin %}<a href="/admin/">Панель администратора</a>{% endif %}
             <a href="/logout/" style="float: right">Выход</a>
         </div>
     {% else %}

@@ -7,12 +7,13 @@ from ConfigParser import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, abort
 from flask_login import login_user
-from .models import User, Klass, Permissions
+from .models import User, Klass
+from .permissions import Permissions, role_to_text, is_current_user_admin
 from flask_login import login_required, current_user, logout_user
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', usr=current_user)
+    return render_template('index.html', usr=current_user, is_admin=is_current_user_admin())
 
 @login_required
 @app.route('/edit/<klass_id>', methods=['GET', 'POST'])
@@ -44,7 +45,8 @@ def edit(klass_id: int):
         'edit.html', 
         old_name=klass.name,
         old_id=klass.stepik_id,
-        old_sheet=klass.sheet_name,    
+        old_sheet=klass.sheet_name, 
+        is_admin=(is_current_user_admin()),   
     )
 
 @login_required
@@ -86,7 +88,13 @@ def klasses():
 
     all_klasses = Klass.query.filter_by(creator_id=current_user.id)
 
-    return render_template('klasses.html', klasses=all_klasses, all_len=all_klasses.count(), usr=current_user)
+    return render_template(
+        'klasses.html', 
+        klasses=all_klasses, 
+        all_len=all_klasses.count(), 
+        usr=current_user, 
+        is_admin=is_current_user_admin(),
+    )
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -131,6 +139,50 @@ def register():
         return redirect('/')
     return render_template('register.html', alerts='')
 
+@app.route('/admin/', methods=['GET', 'POST'])
+@login_required
+def admin_panel(): #TODO: clean this code up
+    if current_user.role != Permissions.admin_account.value and \
+       current_user.role != Permissions.dev_account.value:
+        abort(403)
+
+    action = request.args.get('action')
+    user_id = request.args.get('user_id')
+
+    if action != None and user_id != None:
+        try:
+            user_id = int(user_id)
+        except: # TODO: add exception
+            abort(400)
+        
+        editable_user = User.query.filter_by(id=user_id).first()
+
+        if editable_user.role ==  Permissions.dev_account.value and \
+           current_user.role != Permissions.dev_account.value:
+            abort(403)
+
+        if action == 'ban': # TODO: optimize
+            if current_user.id == user_id:
+                return redirect('/admin/')
+
+            usr_klasses = Klass.query.filter_by(creator_id=user_id).all()
+            for klass in usr_klasses:
+                db.session.delete(klass)
+            db.session.delete(editable_user)
+            db.session.commit()
+        elif action == 'edit':
+            user = User.query.filter_by(id=user_id).first()
+            user.role = request.form.get('role')
+            print(user.role)
+            db.session.commit()
+        else:
+            abort(403)
+
+        return redirect('/admin/')
+
+    users = User.query.all()
+    return render_template('admin.html', selected_users=users, is_dev=(current_user.role == Permissions.dev_account.value), role_to_text=role_to_text)
+
 @app.route('/logout/', methods=['GET', 'POST'])
 @login_required
 def logout():
@@ -138,18 +190,19 @@ def logout():
 
     return redirect('/')
 
+# TODO: remove duplication
 @app.errorhandler(404)
 def error404(err):
-    return render_template('error.html', usr=current_user, error_code=404), 404
+    return render_template('error.html', usr=current_user, error_code=404, is_admin=is_current_user_admin(),), 404
 
 @app.errorhandler(400)
 def error400(err):
-    return render_template('error.html', usr=current_user, error_code=400), 400
+    return render_template('error.html', usr=current_user, error_code=400, is_admin=is_current_user_admin(),), 400
 
 @app.errorhandler(500)
 def error500(err):
-    return render_template('error.html', usr=current_user, error_code=500), 500
+    return render_template('error.html', usr=current_user, error_code=500, is_admin=is_current_user_admin(),), 500
 
 @app.errorhandler(403)
-def error500(err):
-    return render_template('error.html', usr=current_user, error_code=403), 403
+def error403(err):
+    return render_template('error.html', usr=current_user, error_code=403, is_admin=is_current_user_admin(),), 403

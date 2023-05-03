@@ -11,3 +11,42 @@
     <a href="/logout/" style="float: right">Выход</a>
 </div>
 {% endblock %}
+{% block content %}
+    <div class="header">
+        <p>Пользователи</p>
+    </div>
+    <div class="klass">
+        <table>
+            <thead>
+                <tr>
+                    <td scope="col">Пользователь</td>
+                    {% if is_dev %}
+                        <td scope="col">Хэш от пароля</td>
+                    {% endif %}
+                    <td scope="col">Действия</td>
+                    <td scope="col">Права</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in selected_users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        {% if is_dev %}<td>{{ user.password }}</td>{% endif %}
+                        <td><div><a href="?action=ban&user_id={{ user.id }}" class="ap-link">Забанить</span></div></td>
+                        <td>
+                            <form action="/admin/?action=edit&user_id={{ user.id }}" method="POST">
+                                <select name="role">
+                                    <option value="{{ user.role }}"><span class="text">{{ role_to_text(user.role) }}</span></option>
+                                    <option value="0"><span class="text">{{ role_to_text(0) }}</span></option>
+                                    <option value="1"><span class="text">{{ role_to_text(1) }}</span></option>
+                                    <option value="2"><span class="text">{{ role_to_text(2) }}</span></option>
+                                </select>
+                                <button>Сохранить</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
