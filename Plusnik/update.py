@@ -16,8 +16,6 @@ def get_auth_token(client_id, client_secret) -> str:
     token_response = rq.post('https://stepik.org/oauth2/token/', data={'grant_type': 'client_credentials'}, auth=auth).json()
     token = token_response.get('access_token', None)
 
-    print(token)
-
     if not token:
         raise ValueError('Id or secret aren\'t correct')
     
@@ -46,13 +44,10 @@ def refresh_all_rersults(klass: int, token: str):
     '''Updates users' results'''
     users = get_users(klass, token)
 
-    print(users)
-
     for user in users:
         user_id = user['id']
 
         resp = rq.post(f'https://stepik.org/api/course-grades/{user_id}/refresh', get_auth(STANDART_HEADERS, token))
-        print(resp.content)
 
 def download_last_report(klass: int, token: str): # TODO: add "save as" parameter
     '''Downloads last report'''
@@ -62,18 +57,16 @@ def download_last_report(klass: int, token: str): # TODO: add "save as" paramete
         headers=get_auth(STANDART_HEADERS, token)
     ).json()
 
-    print(json.dumps(information, indent=4))
-
     creating_data = rq.get(f"https://stepik.org/api/long-tasks/{ (information['long-tasks'][0]['id']) }", headers=get_auth(STANDART_HEADERS, token)).json()
     while creating_data['long-tasks'][0]['status'] != 'ready':
-        print(creating_data['long-tasks'][0]['status'])
+        # print(creating_data['long-tasks'][0]['status'])
         time.sleep(1)
         creating_data = rq.get(f"https://stepik.org/api/long-tasks/{ (information['long-tasks'][0]['id']) }", headers=get_auth(STANDART_HEADERS, token)).json()
 
     report_url = creating_data['long-tasks'][0]['result']['files'][1]['url']
     downloaded_report = rq.get(report_url).content
 
-    with open('last_report.xlsx', 'wb') as f:
+    with open('./last_report.xlsx', 'wb') as f:
         f.write(downloaded_report)
 
 def update(client_id, client_secret, klass):

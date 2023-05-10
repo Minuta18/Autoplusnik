@@ -4,8 +4,10 @@ import gspread as gp
 import pandas as pd
 
 def load_to_sheet(page: gp.Worksheet, path_to_data: str):
-    data = pd.read_csv(path_to_data, error_bad_lines=False)
+    data = pd.read_excel(path_to_data)
     data = data.fillna(' ')
+    data['last_viewed_utc'] = data['last_viewed_utc'].astype(str)
+    data['date_joined_utc'] = data['date_joined_utc'].astype(str)
 
     page.update([len(data.columns.values.tolist()) * ['', ]] * 70)
     page.update([data.columns.values.tolist()] + data.values.tolist())

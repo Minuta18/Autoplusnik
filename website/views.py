@@ -5,11 +5,12 @@ from .app_init import db
 from .app_init import app
 from ConfigParser import Config
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, render_template, request, redirect, abort
+from flask import Flask, g, url_for, render_template, request, redirect, abort
 from flask_login import login_user
 from .models import User, Klass
 from .permissions import Permissions, role_to_text, is_current_user_admin
 from flask_login import login_required, current_user, logout_user
+from Plusnik import add_task, UpdateTask
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -64,6 +65,7 @@ def delete(klass_id):
 
 @login_required
 @app.route('/klasses/', methods=['GET', 'POST'])
+@login_required
 def klasses():
     if request.method == 'POST':
         klass = request.args.get('klass')
@@ -85,6 +87,19 @@ def klasses():
                 db.session.commit()
 
                 return redirect(f'/edit/{new_klass.id}')
+            elif action == 'update':
+                tklass = Klass.query.filter_by(id=int(klass)).first()
+
+                if tklass == None:
+                    abort(404)
+
+                if current_user.id != tklass.creator_id:
+                    abort(403)
+
+                add_task(
+                    tklass.stepik_id,
+                    tklass.sheet_name,
+                )
 
     all_klasses = Klass.query.filter_by(creator_id=current_user.id)
 
@@ -121,10 +136,15 @@ def register():
         password2 = request.form.get('confirm_password')
         if password != password2:
             return render_template('register.html', alerts="Пароли не совпадают")
+        
         user = User.query.filter_by(email=email).first()
         if user:
             return render_template('register.html', alerts="Почта уже занята")
         
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return render_template('register.html', alerts="Имя пользователя уже занято")
+
         new_user = User(
             email=email,
             username=username,

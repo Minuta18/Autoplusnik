@@ -34,6 +34,9 @@
                         <td>
                             <a href="/edit/{{ klass.id }}" class="ap-link">Изменить</a>
                             <a href="/delete/{{ klass.id }}" class="ap-link">Удалить</a>
+                            <form action="?klass={{ klass.id }}&action=update" method="POST">
+                                <button class="ap-button" style="font-size: larger;">Обновить отчёт</button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}

@@ -6,10 +6,9 @@ import gspread
 def readStepikToken(path: str):
     try:
         with open(path, 'r') as f:
-            text = f.read()
-            f = json.load(text)
+            txt = json.load(f)
             
-            return (f['Client-id'], f['Client-secret'])
+            return (txt['Client-id'], txt['Client-secret'])
     except Exception as e:
         raise ValueError(f"Token file corrupted: {path}")
     
