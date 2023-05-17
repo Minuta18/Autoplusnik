@@ -21,7 +21,7 @@
 </div>
 {% endblock %}
 {% block content %}
-<div class="edit-form">
+<div class="form-container">
     <form method="post" action="?form=0">
         <label><span class="header"><p>Редактировать класс</p></span></label>
         <label for="name_"><span class="text">Название:</span></label>
@@ -35,8 +35,8 @@
     </form>
 </div>
 
-<div class="edit-form">
-    <form method="post">
+<!-- <div class="edit-form">
+    <form method="post" action="?form=1">
         <label><span class="header"><p>Автоматическое обновление</p></span></label>
         <input type="checkbox" style="margin-left: 5%;" name="use">
         <label for="use"><span class="text" style="margin-left: 0%;">Использовать</span></label><br>
@@ -50,5 +50,5 @@
         </select>
         <button type="submit">Отправить</button>
     </form>
-</div>
+</div> -->
 {% endblock %}

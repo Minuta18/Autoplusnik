@@ -55,6 +55,11 @@ class UpdateQueue():
         if len(self.queue) == 0:
             raise Exception('No tasks')
         return self.queue[-1]
+    
+    def remove_by_tid(self, tid):
+        for (ind, task) in enumerate(self.queue):
+            if task.tid == tid:
+                self.queue.pop(ind)
 
 class TaskStatus(enum.Enum):
     '''Status of a task'''
@@ -67,11 +72,11 @@ class UpdateTask():
     def __init__(
             self, 
             queue: UpdateQueue, 
+            ap_klass_id: int,
             klass_id: int, 
             sheet_name: str, 
             stepik_token: dict,
             google_token: dict,
-            loop: int=None, 
         ):
         '''
         ARGS:
@@ -84,13 +89,13 @@ class UpdateTask():
             self.tid = queue.get_last().get_tid() + 1
         except Exception as e:
             self.tid = 0
+        self.ap_klass_id = ap_klass_id
         self.status = TaskStatus.queued
         self.klass_id = klass_id
         self.sheet_name = sheet_name
-        self.loop = loop
         self.stepik_token = stepik_token
         self.google_token = google_token
-        self.last_update = datetime.datetime.utcnow()
+        self.last_update = datetime.datetime.now()
 
     def get_task_info(self) -> dict:
         '''Gets task information'''
@@ -99,7 +104,6 @@ class UpdateTask():
             'status': self.status,
             'class_id': self.klass_id,
             'sheet_name': self.sheet_name,
-            'loop_time': self.loop,
             'last_update': self.last_update,
         }
 
@@ -109,24 +113,26 @@ class UpdateTask():
 
     def run(self) -> None:
         '''Updates klass'''
-        update(self.stepik_token[0], self.stepik_token[1], self.klass_id)
-        load_to_sheet(get_worksheet(WORK_SHEET, self.sheet_name, self.google_token), './last_report.xlsx')
+        if self.status == TaskStatus.running:
+            update(self.stepik_token[0], self.stepik_token[1], self.klass_id)
+            load_to_sheet(get_worksheet(WORK_SHEET, self.sheet_name, self.google_token), './last_report.xlsx')
+            self.status = TaskStatus.updated
 
 task_queue = UpdateQueue()
 stepik_token = readStepikToken('./Plusnik/stepik_token.json')
 google_token = readGoogleToken('./Plusnik/google_token.json')
 
-def add_task(klass_id: int, sheet_name: str) -> None:
+def add_task(ap_klass_id: int, klass_id: int, sheet_name: str) -> None:
     '''Adds task to update queue'''
     global task_queue, stepik_token, google_token
     
     task_queue.append(UpdateTask(
         task_queue,
+        ap_klass_id,
         klass_id,
         sheet_name,
         stepik_token,
         google_token,
-        None,
     ))
 
 def run():
@@ -135,10 +141,9 @@ def run():
 
     while True:
         if len(task_queue.get_all()) > 0:
-            try:
-                task = task_queue.get_first()
-                task_queue.pop_first()
-                task.status = TaskStatus.running
-                task.run()
-            except Exception as e:
-                print(f'Failed to update task\nError occurred: {e}\n')
+            for task in task_queue.get_all():
+                if task.status == TaskStatus.queued:
+                    task.status = TaskStatus.running
+                    task.run()
+                    task_queue.remove_by_tid(task.tid)
+            

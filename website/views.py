@@ -5,12 +5,12 @@ from .app_init import db
 from .app_init import app
 from ConfigParser import Config
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, g, url_for, render_template, request, redirect, abort
+from flask import render_template, request, redirect, abort
 from flask_login import login_user
 from .models import User, Klass
 from .permissions import Permissions, role_to_text, is_current_user_admin
 from flask_login import login_required, current_user, logout_user
-from Plusnik import add_task, UpdateTask
+from Plusnik import add_task, UpdateTask, task_queue
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -23,24 +23,19 @@ def edit(klass_id: int):
         abort(403)
 
     klass = Klass.query.filter_by(id=klass_id).first()
-
     if klass.creator_id != current_user.id:
         abort(403)
 
     if request.method == 'POST':
         form_ = int(request.args.get('form'))
-
         if form_ != None:
             if form_ == 0:
                 klass.name = request.form.get('name_')
                 klass.stepik_id = int(request.form.get('klass_id'))
                 klass.sheet_name = request.form.get('lname')
-
                 db.session.commit()
-            elif form_ == 1:
-                ...
 
-        return redirect('/klasses/')
+                return redirect('/klasses/')
 
     return render_template(
         'edit.html', 
@@ -97,6 +92,7 @@ def klasses():
                     abort(403)
 
                 add_task(
+                    tklass.id,
                     tklass.stepik_id,
                     tklass.sheet_name,
                 )

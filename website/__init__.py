@@ -8,7 +8,6 @@ from . import views
 from .app_init import app
 from .app_init import db
 from .app_init import login_manager
-
 from .models import User
 
 with app.app_context():

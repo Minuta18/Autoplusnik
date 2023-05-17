@@ -2,7 +2,7 @@
 
 from .update import update
 from .readToken import readStepikToken, readGoogleToken
-from .updateManager import add_task, run, UpdateQueue, UpdateTask
+from .updateManager import add_task, run, UpdateQueue, UpdateTask, task_queue
 from threading import Thread
 
 update_thread = Thread(target=run, args=())

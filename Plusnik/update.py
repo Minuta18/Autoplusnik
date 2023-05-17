@@ -73,3 +73,4 @@ def update(client_id, client_secret, klass):
     token = get_auth_token(client_id, client_secret)
     refresh_all_rersults(klass, token)
     download_last_report(klass, token)
+    print('Updated')

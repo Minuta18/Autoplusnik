@@ -1,4 +1,4 @@
-debug: true
+debug: false
 
 web-site:
   host: "0.0.0.0"
@@ -6,6 +6,6 @@ web-site:
 
 plusnik:
   updater:
-    path: "./Plusnik/stepik_toke.json"
+    path: "./Plusnik/stepik_token.json"
   loader:
-    path: "./Plusnik/google_account.json"
+    path: "./Plusnik/google_token.json"
