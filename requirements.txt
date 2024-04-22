@@ -47,7 +47,7 @@ rsa==4.9
 six==1.16.0
 SQLAlchemy==1.4.46
 sqlalchemy-migrate==0.13.0
-sqlparse==0.4.4
+sqlparse==0.5.0
 stack-data==0.6.2
 Tempita==0.5.2
 traitlets==5.9.0
